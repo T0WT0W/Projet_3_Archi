@@ -7,19 +7,23 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="./assets/script.js" defer></script>
+	<script src="./assets/index.js" defer></script>
+	<script src="./assets/modal.js" defer></script>
 </head>
 <body>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
+			<li><a class="active" href="index.html">projets</a></li>
+			<li><a href="#contact">contact</a></li>
+			<li id="login"><a href="login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -37,18 +41,12 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<div class="filtres">
-			<button class="filters">Tous
-			</button>
-			<button class="filters" data-id="1">Objets
-			</button>
-			<button class="filters" data-id="2">Appartements
-			</button>
-			<button class="filters" data-id="3">Hôtels & restaurants
-			</button>
+		<h2 id="projets">Projets</h2>
+		<div class="filtres" id="filtres">
+			<button class="filters">Tous</button>
 		</div>
 		<div class="gallery" id="gallery">
+
 		</div>
 	</section>
 	<section id="contact">
@@ -73,5 +71,47 @@
 		</ul>
 	</nav>
 </footer>
+<aside id="modal1" class="modal" style="display: none;">
+	<div id="mw1"class="modal-wrapper">
+		<a id="cross"><i class="fa-solid fa-x"></i></a>
+		<p>Galerie photo</p>
+		<div id="content" class="content">
+
+		</div>
+		<hr>
+		<input id="addPicture" type="submit" value="Ajouter une photo">
+	</div>
+</aside>
+<aside id="modal2" class="modal" style="display: none;">
+	<div id="mw2" class="modal-wrapper">
+		<a id="cross2"><i class="fa-solid fa-x"></i></a>
+		<a id="arrow"><i class="fa-solid fa-arrow-left"></i></a>
+		<p>Ajout photo</p>
+		<form id="form" action="">
+			<label for="addPic" class="content-2">
+				<div id="content-2">
+					<i class="fa-regular fa-image"></i>
+					<a>+ Ajouter photo</a>
+					<p>JPG, PNG : 4mo max</p>
+				</div>
+				<div>
+					<img id="imgPreview" src="" alt="" style="display: none;">
+				</div>
+			</label>
+			<input id="addPic" type="file" style="display: none;" onchange="success();fileUploaded()">
+			<label class="label-title" for="title">Titre</label>
+			<input id="addTitle" class="title" type="text" onkeyup="success()">
+			<label class="label-title" for="cat-select">Catégorie</label>
+			<select id="addCat" class="custom-select" onchange="success()">
+				<option value="none"></option>
+				<option value="1">Objets</option>
+				<option value="2">Appartements</option>
+				<option value="3">Hôtels & restaurants</option>
+			</select>
+			<hr>
+			<input id="validate" type="submit" value="Valider" disabled>
+		</form>
+	</div>
+</aside>
 </body>
 </html>
