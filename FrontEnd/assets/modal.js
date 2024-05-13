@@ -108,6 +108,14 @@ if (window.localStorage.getItem("token")){
 
             modal1.style.display = "none"
             modal2.style.display = "none"
+
+            let preview = document.getElementById("imgPreview")
+            preview.style.display = "none"
+            preview.src = null
+            document.getElementById("content-2").style.display = null
+
+            nvTitre.value = ""
+            nvCat.value = ""
         })
         .catch (function (error){
             console.log(error)
