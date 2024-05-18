@@ -5,6 +5,7 @@ form.addEventListener("submit", (event) => {
     const data = new FormData(event.target)
     let login = Object.fromEntries(data.entries())
 
+    // recupère toutes data du formulaire et envoie à l'API
     axios.post('http://localhost:5678/api/users/login', login)
     .then(function (response) {
         window.location.href='index.html'

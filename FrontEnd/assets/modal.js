@@ -6,6 +6,7 @@ if (window.localStorage.getItem("token")){
     let arrow = document.getElementById("arrow")
     let addPicture = document.getElementById("addPicture")
 
+    // navigation entre modales et sortie modale par la croix
     modify.addEventListener("click", (event)=> {
         modal1.style.display = null
     })
@@ -28,12 +29,13 @@ if (window.localStorage.getItem("token")){
         modal2.style.display = "none"    
     })
 
+    // active le bouton "valider" de la seconde modale si tous les éléments sont sélectionnés
     function success() {
         let btnSelect = document.getElementById("addCat").options[document.getElementById('addCat').selectedIndex]
         let addTitle = document.getElementById("addTitle")
         let addPic = document.getElementById("addPic")
 
-        if(addTitle.value==="" || btnSelect.text==="" || addPic.files.length===0) { 
+        if(addTitle.value==="" || btnSelect.value==="none" || addPic.files.length===0) { 
                document.getElementById("validate").disabled = true; 
            } else { 
                document.getElementById("validate").disabled = false;
@@ -41,7 +43,7 @@ if (window.localStorage.getItem("token")){
        }
 
     const form = document.getElementById("form")
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", event => {
         event.preventDefault()
 
         let formData = new FormData()
@@ -50,14 +52,11 @@ if (window.localStorage.getItem("token")){
         let nvTitre = document.getElementById("addTitle")
         let nvCat = document.getElementById("addCat")
         
-        let addPic = nvPhoto.files[0]
-        let addTitle = nvTitre.value
-        let addCat = nvCat.value
-        
         formData.append("image", nvPhoto.files[0])
         formData.append("title", nvTitre.value)
         formData.append("category", nvCat.value)
 
+        // envoie à l'API le nv work crée
         axios.post("http://localhost:5678/api/works", formData, {
             headers: {
                 "Authorization": "Bearer "+window.localStorage.getItem("token"),
@@ -67,26 +66,20 @@ if (window.localStorage.getItem("token")){
         .then (function (response){
             let work = response.data
 
+            // affiche le nv work dans la première modale
             let content = document.getElementById("content")
             let divImg = document.createElement("div")
             divImg.setAttribute("class", `img work-${work.id}`)
             let img = document.createElement("img")
             img.setAttribute("src", work.imageUrl)
             let trash = document.createElement("a")
+
+            // supprime le work au clic sur la poubelle
             trash.addEventListener("click", (event)=> {
-              axios.delete(`http://localhost:5678/api/works/${work.id}`, {
-                headers: {
-                  "Authorization": "Bearer "+window.localStorage.getItem("token")
-                }
-              })
-              .then (function (response){
-                let deletedWork = document.querySelectorAll(`.work-${work.id}`)
-                deletedWork.forEach(function(workDeleted) {
-                  workDeleted.parentElement.removeChild(workDeleted)
-                })
-              }) 
+                callDeleteWork(work)
             })
             
+            // crée la poubelle sur le nv work
             let iconTrash = document.createElement("i")
             iconTrash.setAttribute("class", "fa-solid fa-trash-can")
       
@@ -95,6 +88,7 @@ if (window.localStorage.getItem("token")){
             divImg.append(trash)
             content.append(divImg)
 
+            // affiche le nv work dans la section gallerie
             let gallery = document.getElementById("gallery")
             let nouvelleFigure = document.createElement("figure")
             nouvelleFigure.setAttribute("class", `work-${work.id}`)
@@ -106,14 +100,17 @@ if (window.localStorage.getItem("token")){
             nouvelleFigure.append(image)
             nouvelleFigure.append(figcaption)
 
+            // cache les modales
             modal1.style.display = "none"
             modal2.style.display = "none"
 
+            // vide l'image
             let preview = document.getElementById("imgPreview")
             preview.style.display = "none"
             preview.src = null
             document.getElementById("content-2").style.display = null
 
+            // vide les input
             nvTitre.value = ""
             nvCat.value = ""
         })
@@ -122,6 +119,7 @@ if (window.localStorage.getItem("token")){
         })
     })
 
+    // affiche l'image sélectionnée et cache les input
     function fileUploaded() {
         let input = document.getElementById("addPic")
         let preview = document.getElementById("imgPreview")

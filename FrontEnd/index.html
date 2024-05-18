@@ -103,10 +103,8 @@
 			<input id="addTitle" class="title" type="text" onkeyup="success()">
 			<label class="label-title" for="cat-select">Catégorie</label>
 			<select id="addCat" class="custom-select" onchange="success()">
-				<option value="none"></option>
-				<option value="1">Objets</option>
-				<option value="2">Appartements</option>
-				<option value="3">Hôtels & restaurants</option>
+				<option value="none" selected disabled hidden>Choisir une catégorie</option>
+
 			</select>
 			<hr>
 			<input id="validate" type="submit" value="Valider" disabled>
