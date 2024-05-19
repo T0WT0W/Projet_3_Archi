@@ -8,13 +8,16 @@ function callDeleteWork(work) {
     }
   })
     .then(function (response) {
-      let deletedWork = document.querySelectorAll(`.work-${work.id}`)
-      deletedWork.forEach((element) => {
-        element.remove()
-      })
+      // let deletedWork = document.querySelectorAll(`.work-${work.id}`)
+      // deletedWork.forEach((element) => {
+      //   element.remove()
+      // })
 
-      // let deletedWork = document.getElementsByClassName(`work-${work.id}`)
-      // deletedWork.parentElement.removeChild(deletedWork)
+      let modalWork = document.querySelector(`div.work-${work.id}`)
+      let galleryWork = document.querySelector(`figure.work-${work.id}`)
+
+      modalWork.parentNode.removeChild(modalWork)
+      galleryWork.parentNode.removeChild(galleryWork)
     })
 }
 
