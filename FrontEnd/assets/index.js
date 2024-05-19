@@ -21,6 +21,32 @@ function callDeleteWork(work) {
     })
 }
 
+// Fonction qui permet d'afficher les works selon une catégorie (ou pas)
+function categoryFilters(event) {
+  // récupère la galerie et supprime tous ses éléments
+  let gallery = document.getElementById("gallery")
+  gallery.innerHTML = ""
+
+  // récupère le numéro de la catégorie si l'event en trouve un 
+  const categoryId = event ? event.target.getAttribute("data-id") : null
+  // si j'ai une catégorie, alors je filtre mes works
+  const memoriesWorks = categoryId ? works.filter(w => w.categoryId == categoryId) : works
+
+  // boucle les works, qu'ils soient filtrés ou pas
+  for (let work of memoriesWorks) {
+    // crée les éléments HTML
+    let nouvelleFigure = document.createElement("figure")
+    nouvelleFigure.setAttribute("class", `work-${work.id}`)
+    let image = document.createElement("img")
+    image.src = work.imageUrl
+    let figcaption = document.createElement("figcaption")
+    figcaption.textContent = work.title
+    gallery.append(nouvelleFigure)
+    nouvelleFigure.append(image)
+    nouvelleFigure.append(figcaption)
+  }
+}
+
 // appelle les works de l'API
 axios.get('http://localhost:5678/api/works')
   .then(function (response) {
@@ -48,32 +74,6 @@ axios.get('http://localhost:5678/api/works')
       divImg.append(img)
       divImg.append(trash)
       content.append(divImg)
-    }
-
-    // Fonction qui permet d'afficher les works selon une catégorie (ou pas)
-    function categoryFilters(event) {
-      // récupère la galerie et supprime tous ses éléments
-      let gallery = document.getElementById("gallery")
-      gallery.innerHTML = ""
-
-      // récupère le numéro de la catégorie si l'event en trouve un 
-      const categoryId = event ? event.target.getAttribute("data-id") : null
-      // si j'ai une catégorie, alors je filtre mes works
-      const memoriesWorks = categoryId ? works.filter(w => w.categoryId == categoryId) : works
-
-      // boucle les works, qu'ils soient filtrés ou pas
-      for (let work of memoriesWorks) {
-        // crée les éléments HTML
-        let nouvelleFigure = document.createElement("figure")
-        nouvelleFigure.setAttribute("class", `work-${work.id}`)
-        let image = document.createElement("img")
-        image.src = work.imageUrl
-        let figcaption = document.createElement("figcaption")
-        figcaption.textContent = work.title
-        gallery.append(nouvelleFigure)
-        nouvelleFigure.append(image)
-        nouvelleFigure.append(figcaption)
-      }
     }
 
     document.getElementsByClassName("filters")[0].addEventListener("click", (event) => categoryFilters(event))
